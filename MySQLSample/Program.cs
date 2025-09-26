@@ -9,10 +9,10 @@ public class Program
         var connStringBuilder = new MySqlConnectionStringBuilder
         {
             Server = "10.0.0.33",
-            Database = "grv_dev",
-            UserId = "grv_dev_user",
+            Database = "sample",
+            UserId = "root",
             Password = "Welcome1docker",
-            LicenseKey = File.ReadAllText("devart.key").Trim()
+            LicenseKey = File.ReadAllText("devart.key").Trim(),
         };
 
         Console.WriteLine("Connecting to database...");
@@ -40,6 +40,6 @@ public class SampleDataContext(string connectionString) : DbContext
 [Table("store")]
 public class Store
 {
-    [Column("_id")] public int Id { get; set; }
+    [Column("id")] public int Id { get; set; }
     [Column("name")] public string? Name { get; set; }
 }
