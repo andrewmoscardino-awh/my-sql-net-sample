@@ -1,22 +1,43 @@
-﻿using Devart.Data.MySql;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Devart.Data.MySql;
+using Microsoft.EntityFrameworkCore;
 
-var key = File.ReadAllText("devart.key");
-
-var connStringBuilder = new MySqlConnectionStringBuilder
+public class Program
 {
-    Server = "localhost",
-    Database = "grv_dev",
-    UserId = "grv_dev_user",
-    Password = "Welcome1docker",
-    LicenseKey = key
-};
+    private static void Main(string[] args)
+    {
+        var key = File.ReadAllText("devart.key");
+        var connStringBuilder = new MySqlConnectionStringBuilder
+        {
+            Server = "localhost",
+            Database = "grv_dev",
+            UserId = "grv_dev_user",
+            Password = "Welcome1docker",
+            LicenseKey = key
+        };
 
-using var connection = new MySqlConnection(connStringBuilder.ConnectionString);
-connection.Open();
+        Console.WriteLine("Connecting to database...");
 
-using var command = connection.CreateCommand();
-command.CommandText = "select count(*) from store";
+        using var context = new SampleDataContext(connStringBuilder.ConnectionString);
+        var count = context.Stores.Count();
+        Console.WriteLine($"Number of stores: {count}");
+    }
+}
 
-var result = command.ExecuteScalar();
+public class SampleDataContext(string connectionString) : DbContext
+{
+    public DbSet<Store> Stores => Set<Store>();
 
-Console.WriteLine($"Number of stores: {result}");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        Console.WriteLine("Configuring database context...");
+        optionsBuilder.UseMySql(connectionString);
+    }
+}
+
+[Table("store")]
+public class Store
+{
+    [Column("_id")] public int Id { get; set; }
+    [Column("name")] public string? Name { get; set; }
+}

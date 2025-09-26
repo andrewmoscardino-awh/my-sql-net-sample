@@ -5,11 +5,10 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <DefaultNamespace>MySQLSample</DefaultNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Devart.Data.MySql" Version="9.4.290" />
+    <PackageReference Include="Devart.Data.MySql.EFCore" Version="9.4.290.9" />
   </ItemGroup>
 
 </Project>
