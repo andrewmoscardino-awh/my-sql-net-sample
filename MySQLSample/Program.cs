@@ -6,20 +6,22 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        var key = File.ReadAllText("devart.key");
         var connStringBuilder = new MySqlConnectionStringBuilder
         {
-            Server = "localhost",
+            Server = "10.0.0.33",
             Database = "grv_dev",
             UserId = "grv_dev_user",
             Password = "Welcome1docker",
-            LicenseKey = key
+            LicenseKey = File.ReadAllText("devart.key").Trim()
         };
 
         Console.WriteLine("Connecting to database...");
 
         using var context = new SampleDataContext(connStringBuilder.ConnectionString);
+
+        Console.WriteLine("Querying database...");
         var count = context.Stores.Count();
+
         Console.WriteLine($"Number of stores: {count}");
     }
 }
